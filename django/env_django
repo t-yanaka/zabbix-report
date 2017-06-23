@@ -1,0 +1,7 @@
+DB_NAME=mydb
+DB_USER=mydb
+DB_PASS=mydb
+DB_SERVICE=mydb
+DB_HOST=127.0.0.1
+DB_PORT=3306
+START_CMD=python3 manage.py runserver 0.0.0.0:8000

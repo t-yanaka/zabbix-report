@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    hostname: django
+    restart: always
+    volumes:
+      - ./mysqlconf:/etc/mysql/conf.d
+      - ./mysql/data:/var/lib/mysql
+    environment:
+      - MYSQL_NAME=django
+      - MYSQL_DATABASE=django
+      - MYSQL_USER=django
+      - MYSQL_PASSWORD=django
+      - MYSQL_ROOT_PASSWORD=django
+  
+  web:
+    #image: django
+    build: ./django
+    env_file: ./django/env_django
+    command: python3 manage.py runserver 0.0.0.0:8000 
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    links:
+      - db
+    depends_on:
+      - db
