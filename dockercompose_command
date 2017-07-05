@@ -1,1 +1,1 @@
-#docker-compose run web django-admin.py startproject proto .
+#docker-compose run web django-admin.py startproject django .

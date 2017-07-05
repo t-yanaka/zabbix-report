@@ -1,6 +1,0 @@
- Django>=1.8,<2.0
- psycopg2
- PyMySQL
- django-mysql
- mysqlclient
- #MySQL-python

@@ -1,32 +1,138 @@
 version: '2'
 
 services:
-  db:
+  graph_db:
     image: mysql:5.7
     ports:
-      - "3306:3306"
-    hostname: django
+      - "33060:3306"
+    hostname: graph_db
     restart: always
     volumes:
-      - ./mysqlconf:/etc/mysql/conf.d
-      - ./mysql/data:/var/lib/mysql
+      - ./graph/mysql/conf.d:/etc/mysql/conf.d
+      - ../mysql/graph/data:/var/lib/mysql
     environment:
-      - MYSQL_NAME=django
-      - MYSQL_DATABASE=django
-      - MYSQL_USER=django
-      - MYSQL_PASSWORD=django
-      - MYSQL_ROOT_PASSWORD=django
-  
-  web:
-    #image: django
-    build: ./django
-    env_file: ./django/env_django
-    command: python3 manage.py runserver 0.0.0.0:8000 
+      - MYSQL_NAME=graph_db
+      - MYSQL_DATABASE=graph_db
+      - MYSQL_USER=graph_db
+      - MYSQL_PASSWORD=graph_db
+      - MYSQL_ROOT_PASSWORD=graph_db
+
+  table_db:
+    image: mysql:5.7
+    ports:
+      - "33061:3306"
+    hostname: table_db
+    restart: always
     volumes:
-      - .:/code
+      - ./table/mysql/conf.d:/etc/mysql/conf.d
+      - ../mysql/table/data:/var/lib/mysql
+    environment:
+      - MYSQL_NAME=table_db
+      - MYSQL_DATABASE=table_db
+      - MYSQL_USER=table_db
+      - MYSQL_PASSWORD=table_db
+      - MYSQL_ROOT_PASSWORD=table_db
+
+  customer_api_db:
+    image: mysql:5.7
+    ports:
+      - "33062:3306"
+    hostname: customer_api_db
+    restart: always
+    volumes:
+      - ./customer_api_db/mysql/conf.d:/etc/mysql/conf.d
+      - ../mysql/customer_api_db/data:/var/lib/mysql
+    environment:
+      - MYSQL_NAME=customer_api_db
+      - MYSQL_DATABASE=customer_api_db
+      - MYSQL_USER=customer_api_db
+      - MYSQL_PASSWORD=customer_api_db
+      - MYSQL_ROOT_PASSWORD=customer_api_db
+
+  zabbix_api_db:
+    image: mysql:5.7
+    ports:
+      - "33063:3306"
+    hostname: zabbix_api_db
+    restart: always
+    volumes:
+      - ./zabbix_api_db/mysql/conf.d:/etc/mysql/conf.d
+      - ../mysql/zabbix_api_db/data:/var/lib/mysql
+    environment:
+      - MYSQL_NAME=zabbix_api_db
+      - MYSQL_DATABASE=zabbix_api_db
+      - MYSQL_USER=zabbix_api_db
+      - MYSQL_PASSWORD=zabbix_api_db
+      - MYSQL_ROOT_PASSWORD=zabbix_api_db
+ 
+  graph:
+    #image: django
+    build: ./graph
+    #env_file: ./django/env_django
+    command: python3 manage.py startapp app
+    command: python3 manage.py makemigrations
+    command: python3 manage.py migrate
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./graph:/code
+    ports:
+      - "8002:8000"
+    links:
+      - graph_db
+      - table
+      - customer_api
+      - zabbix_api
+    depends_on:
+      - graph_db
+  
+  table:
+     #image: django
+    build: ./table
+    #env_file: django/env_django
+    command: python3 manage.py makemigrations
+    command: python3 manage.py migrate
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./table:/code
+    ports:
+      - "8001:8000"
+    links:
+      - table_db
+    depends_on:
+      - table_db
+    
+  customer_api:
+    #image: django
+    build: ./customer_api
     ports:
       - "8000:8000"
+    #env_file: ./django/env_django
+    #command: python3 manage.py startapp api
+    command: python3 manage.py makemigrations
+    command: python3 manage.py migrate
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./customer_api:/code
+    ports:
+      - "8002:8000"
     links:
-      - db
+      - customer_api_db
     depends_on:
-      - db
+      - customer_api_db
+
+  zabbix_api:
+    #image: django
+    build: ./zabbix_api
+    #env_file: django/env_django
+    command: python3 manage.py startapp api 
+    command: python3 manage.py makemigrations
+    command: python3 manage.py migrate
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes: 
+      - ./zabbix_api:/code
+    ports:
+      - "8003:8000"
+    links:
+      - zabbix_api_db
+    depends_on:
+      - zabbix_api_db
