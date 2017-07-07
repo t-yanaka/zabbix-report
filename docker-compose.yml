@@ -121,18 +121,25 @@ services:
       - customer_api_db
 
   zabbix_api:
-    #image: django
     build: ./zabbix_api
-    #env_file: django/env_django
-    command: python3 manage.py startapp api 
-    command: python3 manage.py makemigrations
-    command: python3 manage.py migrate
-    command: python3 manage.py runserver 0.0.0.0:8000
-    volumes: 
-      - ./zabbix_api:/code
     ports:
-      - "8003:8000"
-    links:
-      - zabbix_api_db
-    depends_on:
-      - zabbix_api_db
+      - "8004:8000"
+    volumes:
+      - ./zabbix_api:/code
+    command: gunicorn -b 0.0.0.0:8000 -w 4  resource:app
+#  zabbix_api:
+    #image: django
+#    build: ./zabbix_api
+    #env_file: django/env_django
+#    command: python3 manage.py startapp api 
+#    command: python3 manage.py makemigrations
+#    command: python3 manage.py migrate
+#    command: python3 manage.py runserver 0.0.0.0:8000
+#    volumes: 
+#      - ./zabbix_api:/code
+#    ports:
+#      - "8003:8000"
+#    links:
+#      - zabbix_api_db
+#    depends_on:
+#      - zabbix_api_db

@@ -1,0 +1,6 @@
+ PyMySQL
+ #mysqlclient
+ #MySQL-python
+ falcon
+ gunicorn
+ #mysql-connector-python-rf
