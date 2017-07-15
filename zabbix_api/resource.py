@@ -7,36 +7,25 @@ class HelloResource(object):
         resp.body = json.dumps("This is no GET API")
         
     def on_post(self,req,resp):
-        db_host_data = json.loads(req.stream.read().decode('utf-8')) 
+
+        db_host_data = json.loads(req.stream.read().decode('utf-8'))
+ 
         host = db_host_data['host']
         port = db_host_data['port']
         db = db_host_data['db']
         user = db_host_data['user']
         passwd = db_host_data['passwd']
         charset = db_host_data['charset']
-        #db_host = 'host=\'' + host + '\', port=' + port + ', db=\'' + db + '\', user=\'' + user + '\', passwd=\'' + passwd + '\', charset=\'' + charset + '\''
-        #conn = pymysql.connect(host=host, user=user, passwd=passwd, db=db, port=port, charset=charset)
-        conn = pymysql.connect(host=host, port=port, database=db, user=user, password=passwd, charset=charset)
-        cur = conn.cursor()
-        cur.execute("show columns from alerts")
-        field = cur.fetchall()
-        
-        cur.execute("select * from alerts;")
-        alerts_data=cur.fetchall()
-        alerts_dict = {}
+        query = db_host_data['query']
 
-        i=0
-        for a in alerts_data:
-            j=0
-            fa_dict = {}
-            for f in field:
-                fa_dict.update({f[0]:a[j]})
-                j+=1
-            alerts_dict.update({i:fa_dict})
-            i+=1
+        conn = pymysql.connect(host=host, port=port, database=db, user=user, password=passwd, charset=charset, cursorclass=pymysql.cursors.DictCursor)
+        cur = conn.cursor() 
+        cur.execute(query)
+        alerts_data = cur.fetchall()
+
         cur.close()
         conn.close()         
-        resp.body = json.dumps(alerts_dict)
+        resp.body = json.dumps(alerts_data)
         #resp.status = falcon.HTTP_200
 app = falcon.API()
 app.add_route("/",HelloResource())
