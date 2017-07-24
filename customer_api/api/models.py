@@ -20,8 +20,8 @@ class Cace(models.Model):
     def __str__(self):
         return self.cace 
 
-    def __unicode__(self):
-        return u"{}".format(self.your_field)
+    #def __unicode__(self):
+    #    return '{}'.format(self.your_field)
     
     #def __repr__(self):
     #    return "{}: {}".format(self.pk, self.name)
@@ -49,7 +49,8 @@ class Database(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.cace
+        return self.cace.cace
+
        
-    def __unicode__(self):
-        return u"{}".format(self.your_field)
+    #def __unicode__(self):
+    #    return '{}'.format(self.your_field)
