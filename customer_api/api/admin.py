@@ -1,13 +1,13 @@
 from django.contrib import admin
 
-from .models import User, Entry
+from .models import Cace, Database
 
 
-@admin.register(User)
+@admin.register(Cace)
 class UserAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(Entry)
+@admin.register(Database)
 class Entry(admin.ModelAdmin):
     pass
 

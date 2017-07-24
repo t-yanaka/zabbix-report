@@ -3,15 +3,15 @@
 import django_filters
 from rest_framework import viewsets, filters
 
-from .models import User, Entry
-from .serializer import UserSerializer, EntrySerializer
+from .models import Cace, Database
+from .serializer import CaceSerializer, DatabaseSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class CaceViewSet(viewsets.ModelViewSet):
+    queryset = Cace.objects.all()
+    serializer_class = CaceSerializer
 
 
-class EntryViewSet(viewsets.ModelViewSet):
-    queryset = Entry.objects.all()
-    serializer_class = EntrySerializer
+class DatabaseViewSet(viewsets.ModelViewSet):
+    queryset = Database.objects.all()
+    serializer_class = DatabaseSerializer

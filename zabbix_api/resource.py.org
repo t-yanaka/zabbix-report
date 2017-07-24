@@ -1,16 +1,12 @@
 import json
 import falcon
 import pymysql
-import zabmysql
 
 class HelloResource(object):
     def on_get(self,req,resp):
         resp.body = json.dumps("This is no GET API")
         
     def on_post(self,req,resp):
-         
-        #post = json.loads(req.stream.read().decode('utf-8')) 
-        #sel = select.query(**post)
 
         db_host_data = json.loads(req.stream.read().decode('utf-8'))
  
@@ -21,20 +17,16 @@ class HelloResource(object):
         passwd = db_host_data['passwd']
         charset = db_host_data['charset']
         query = db_host_data['query']
- 
+
         conn = pymysql.connect(host=host, port=port, database=db, user=user, password=passwd, charset=charset, cursorclass=pymysql.cursors.DictCursor)
         cur = conn.cursor() 
-        
-        if query == "alerts":
-            cur.execute('select * from alerts;')
-            alerts_data = cur.fetchall()
-        else:
-            alerts_data = 'zabbix_api error'
-                  
+        cur.execute(query)
+        alerts_data = cur.fetchall()
+
         cur.close()
         conn.close()         
         resp.body = json.dumps(alerts_data)
-        #resp.body = type(post)
+        #resp.status = falcon.HTTP_200
 app = falcon.API()
 app.add_route("/",HelloResource())
 

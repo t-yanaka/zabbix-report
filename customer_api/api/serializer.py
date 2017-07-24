@@ -2,16 +2,16 @@
 
 from rest_framework import serializers
 
-from .models import User, Entry
+from .models import Cace, Database
 
 
-class UserSerializer(serializers.ModelSerializer):
+class CaceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ('name', 'mail')
+        model = Cace
+        fields = ('case', 'company', 'mail', 'telephone', 'service', 'main_sales_staff', 'sub_sales_staff','main_technical_staff', 'sub_technical_staff', 'memo')
 
 
-class EntrySerializer(serializers.ModelSerializer):
+class DatabaseSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Entry
-        fields = ('title', 'body', 'created_at', 'status', 'author')
+        model = Database
+        fields = ('cace', 'host', 'user', 'passwd', 'db', 'port', 'charset')

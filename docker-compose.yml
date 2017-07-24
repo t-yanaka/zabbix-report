@@ -42,6 +42,7 @@ services:
     volumes:
       - ./customer_api_db/mysql/conf.d:/etc/mysql/conf.d
       - ../mysql/customer_api_db/data:/var/lib/mysql
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --skip-character-set-client-handshake --explicit_defaults_for_timestamp=1
     environment:
       - MYSQL_NAME=customer_api_db
       - MYSQL_DATABASE=customer_api_db
@@ -69,7 +70,7 @@ services:
     #image: django
     build: ./graph
     #env_file: ./django/env_django
-    command: python3 manage.py startapp app
+    #command: python3 manage.py startapp app
     command: python3 manage.py makemigrations
     command: python3 manage.py migrate
     command: python3 manage.py runserver 0.0.0.0:8000
@@ -89,6 +90,12 @@ services:
      #image: django
     build: ./table
     #env_file: django/env_django
+    #command: mkdir -p /code/table/static
+    #command: wget https://github.com/twbs/bootstrap/releases/download/v4.0.0-alpha.6/bootstrap-4.0.0-alpha.6-dist.zip -P /code/table/static
+    #command: unzip /code/table/static/bootstrap-4.0.0-alpha.6-dist.zip
+    #command: cp -a /code/table/static/bootstrap-4.0.0-alpha.6-dist/* /code/table/static
+    #command: rm -rf /code/table/static/bootstrap-4.0.0-alpha.6-dist
+    command: python3 manage.py startapp app
     command: python3 manage.py makemigrations
     command: python3 manage.py migrate
     command: python3 manage.py runserver 0.0.0.0:8000
@@ -104,8 +111,6 @@ services:
   customer_api:
     #image: django
     build: ./customer_api
-    ports:
-      - "8000:8000"
     #env_file: ./django/env_django
     #command: python3 manage.py startapp api
     command: python3 manage.py makemigrations
