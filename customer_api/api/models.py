@@ -1,32 +1,28 @@
 from django.db import models
 import uuid
 
-class Cace(models.Model):
-    #cace_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    #cace_id = models.IntegerField()
-    cace = models.CharField(max_length=128)
-    company = models.CharField(max_length=128)
-    mail = models.CharField(max_length=128)
+class Company(models.Model):
+    name = models.CharField(max_length=128)
     telephone =  models.CharField(max_length=128)
-    service = models.TextField()
-    main_sales_staff = models.TextField()
-    sub_sales_staff = models.TextField()
-    main_technical_staff = models.TextField()
-    sub_technical_staff = models.TextField()
-    memo = models.TextField()
-    #created_at = models.DateTimeField(auto_now_add=True)
-    #updated_at = models.DateTimeField(auto_now=True)
+    mail = models.CharField(max_length=128)
 
     def __str__(self):
-        return self.cace 
+        return self.name 
 
-    #def __unicode__(self):
-    #    return '{}'.format(self.your_field)
-    
-    #def __repr__(self):
-    #    return "{}: {}".format(self.pk, self.name)
+class Staff(models.Model):
+    name = models.CharField(max_length=128)
+    telephone =  models.CharField(max_length=128)
+    mail = models.CharField(max_length=128)
 
-    #__str__ = __repr__
+    #main_sales_staff = models.TextField()
+    #sub_sales_staff = models.TextField()
+    #main_technical_staff = models.TextField()
+    #sub_technical_staff = models.TextField()
+    #telephone =  models.CharField(max_length=128)
+    #mail = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.name
 
 class Database(models.Model):
     STATUS_USER = "zabbix"
@@ -38,18 +34,55 @@ class Database(models.Model):
     #        (STATUS_DRAFT, "下書き"),
     #        (STATUS_PUBLIC, "公開中"),
     #)
-    cace = models.ForeignKey(Cace, related_name='database')
+    hostname = models.CharField(max_length=128)
+    #cace = models.ForeignKey(Cace, related_name='database')
+    hostname = models.CharField(max_length=128)
     host = models.CharField(max_length=128)
     user = models.CharField(default=STATUS_USER, max_length=128)
     passwd = models.CharField(default=STATUS_PASSWD, max_length=128)
     db = models.CharField(default=STATUS_DB, max_length=128)
     port = models.IntegerField(default=STATUS_PORT)
     charset = models.CharField(default=STATUS_CHARSET, max_length=128)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
+    #created_at = models.DateTimeField(auto_now_add=True)
+    #updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
-        return self.cace.cace
+        return self.hostname
+
+
+class Cace(models.Model):
+    #cace_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #cace_id = models.IntegerField()
+    cace = models.CharField(max_length=128)
+    company = models.ForeignKey(Company)
+    service = models.TextField(blank=True)
+    technical_main_staff = models.ForeignKey(Staff, related_name='technical_main_staff')
+    technical_sub_staff = models.ForeignKey(Staff, related_name='technical_sub_staff') 
+    sales_main_staff = models.ForeignKey(Staff, related_name='sales_main_staff')
+    sales_sub_staff = models.ForeignKey(Staff, related_name='sales_sub_staff')
+    monitoring_server = models.ForeignKey(Database)
+    memo = models.TextField(blank=True)
+    #created_at = models.DateTimeField(auto_now_add=True)
+    #updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.cace 
+
+    #sub_sales_staff = models.TextField()
+    #main_technical_staff = models.TextField()
+    #sub_technical_staff = models.TextField()
+    #telephone =  models.CharField(max_length=128)
+    #mail = models.CharField(max_length=128)
+
+
+    #def __unicode__(self):
+    #    return '{}'.format(self.your_field)
+    
+    #def __repr__(self):
+    #    return "{}: {}".format(self.pk, self.name)
+
+    #__str__ = __repr__
+
 
        
     #def __unicode__(self):

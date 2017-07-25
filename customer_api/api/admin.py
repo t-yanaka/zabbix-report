@@ -1,13 +1,22 @@
 from django.contrib import admin
 
-from .models import Cace, Database
+from .models import Cace, Database, Company, Staff
 
 
 @admin.register(Cace)
-class UserAdmin(admin.ModelAdmin):
+class Entry_cace(admin.ModelAdmin):
     pass
 
 @admin.register(Database)
-class Entry(admin.ModelAdmin):
+class Entry_database(admin.ModelAdmin):
     pass
+
+@admin.register(Company)
+class Entry_company(admin.ModelAdmin):
+    pass
+
+@admin.register(Staff)
+class Entry_staff(admin.ModelAdmin):
+    pass
+
 
