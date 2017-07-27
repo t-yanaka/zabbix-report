@@ -3,16 +3,18 @@
 import django_filters
 from rest_framework import viewsets, filters
 
-from .models import Company, Staff, Database, Cace
-from .serializer import CompanySerializer, StaffSerializer, DatabaseSerializer, CaceSerializer
+#from .models import Company, Staff, Database, Cace
+from .models import Company, Database, Cace
+#from .serializer import CompanySerializer, StaffSerializer, DatabaseSerializer, CaceSerializer
+from .serializer import CompanySerializer, DatabaseSerializer, CaceSerializer
 
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
 
-class StaffViewSet(viewsets.ModelViewSet):
-    queryset = Staff.objects.all()
-    serializer_class = StaffSerializer
+#class StaffViewSet(viewsets.ModelViewSet):
+#    queryset = Staff.objects.all()
+#    serializer_class = StaffSerializer
 
 class DatabaseViewSet(viewsets.ModelViewSet):
     queryset = Database.objects.all()

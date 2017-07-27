@@ -2,17 +2,18 @@
 
 from rest_framework import serializers
 
-from .models import Company, Staff, Database, Cace
+#from .models import Company, Staff, Database, Cace
+from .models import Company, Database, Cace
 
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = ('id', 'name', 'telephone', 'mail')
 
-class StaffSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Staff
-        fields = ('id', 'name', 'telephone', 'mail')
+#class StaffSerializer(serializers.ModelSerializer):
+#    class Meta:
+#        model = Staff
+#        fields = ('id', 'name', 'telephone', 'mail')
 
 class DatabaseSerializer(serializers.ModelSerializer):
     class Meta:
