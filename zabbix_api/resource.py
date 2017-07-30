@@ -25,11 +25,11 @@ class HelloResource(object):
         conn = pymysql.connect(host=host, port=port, database=db, user=user, password=passwd, charset=charset, cursorclass=pymysql.cursors.DictCursor)
         cur = conn.cursor() 
         
-        if query == "alerts":
-            cur.execute('select * from alerts;')
-            alerts_data = cur.fetchall()
-        else:
-            alerts_data = 'zabbix_api error'
+        #if query == "alerts":
+        cur.execute(query)
+        alerts_data = cur.fetchall()
+        #else:
+        #    alerts_data = 'zabbix_api error'
                   
         cur.close()
         conn.close()         

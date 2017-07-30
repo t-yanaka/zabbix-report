@@ -66,7 +66,19 @@ services:
       - MYSQL_USER=zabbix_api_db
       - MYSQL_PASSWORD=zabbix_api_db
       - MYSQL_ROOT_PASSWORD=zabbix_api_db
- 
+
+  nginx:
+    image: nginx
+    ports:
+      - "80:80" 
+    volumes:
+      - ./nginx/html:/code
+      - ./nginx/conf.d:/etc/nginx/conf.d/
+   
+    #links:
+      #- customer_api
+    #  - zabbix_api  
+
   graph:
     #image: django
     build: ./graph
@@ -129,10 +141,13 @@ services:
   zabbix_api:
     build: ./zabbix_api
     ports:
-      - "8004:8000"
+      - "8003:8000"
     volumes:
       - ./zabbix_api:/code
     command: gunicorn -b 0.0.0.0:8000 -w 4  resource:app
+    depends_on: 
+      - nginx
+
 #  zabbix_api:
     #image: django
 #    build: ./zabbix_api

@@ -51,6 +51,18 @@ class Database(models.Model):
     def __str__(self):
         return self.hostname
 
+class Templetes(models.Model):
+    #cace_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #cace_id = models.IntegerField()
+    filename = models.CharField(max_length=128)
+    upload = models.FileField(upload_to='uploads/')
+    memo = models.TextField(blank=True)
+    #created_at = models.DateTimeField(auto_now_add=True)
+    #updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.cace
+
 
 class Cace(models.Model):
     #cace_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -63,12 +75,13 @@ class Cace(models.Model):
     sales_main_staff = models.ForeignKey(User, related_name='sales_main_staff')
     sales_sub_staff = models.ForeignKey(User, related_name='sales_sub_staff')
     monitoring_server = models.ForeignKey(Database)
+    Templetes = models.ForeignKey(Templetes)
     memo = models.TextField(blank=True)
     #created_at = models.DateTimeField(auto_now_add=True)
     #updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.cace 
+        return self.cace
 
     #sub_sales_staff = models.TextField()
     #main_technical_staff = models.TextField()
