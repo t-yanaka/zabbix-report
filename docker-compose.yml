@@ -71,6 +71,7 @@ services:
     image: nginx
     ports:
       - "80:80" 
+    hostname: nginx
     volumes:
       - ./nginx/html:/code
       - ./nginx/conf.d:/etc/nginx/conf.d/
@@ -142,10 +143,13 @@ services:
     build: ./zabbix_api
     ports:
       - "8003:8000"
+    hostname: zabbix_api
     volumes:
       - ./zabbix_api:/code
     command: gunicorn -b 0.0.0.0:8000 -w 4  resource:app
     depends_on: 
+      - nginx
+    links:
       - nginx
 
 #  zabbix_api:

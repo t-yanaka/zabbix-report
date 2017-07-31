@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/dict.js"></script>
+  </head>
+　　 <body>
+ 　　　　 <p>外部で読み込むサンプル</p>
+          <div class="nameData">
+             <p>がんばっペ！Wake Up, Girls！</p>
+          </div>
+ 　　</body>
+</html>

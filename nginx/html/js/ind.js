@@ -11,12 +11,16 @@ $( function() {
           url: url,
           type:'GET',
           data: requestParam,
-          dataType: 'jsonp',
-          jsonpCallback: 'test',
+          dataType: 'json',
+          //jsonpCallback: 'test',
           //jsonp : 'parseResponse',
-          success: function callback(data) {
+          success: function(data) {
+                       var d = JSON.stringify(data);
+                       //var d = data.alert
+                       
                        // レスポンス情報を出力します。
-                       responseDebug(data);
+                       //responseDebug(data);
+                       alert(d);
                    },
           error: function(XMLHttpRequest, textStatus, errorThrown) {
                       // エラー情報を出力します。
