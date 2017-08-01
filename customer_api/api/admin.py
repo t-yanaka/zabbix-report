@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 #from .models import Cace, Database, Company, Staff
-from .models import Cace, Database, Company, Templetes
+from .models import Cace, Database, Company
 
 @admin.register(Cace)
 class Entry_cace(admin.ModelAdmin):
@@ -15,9 +15,9 @@ class Entry_database(admin.ModelAdmin):
 class Entry_company(admin.ModelAdmin):
     pass
 
-@admin.register(Templetes)
-class Entry_company(admin.ModelAdmin):
-    pass
+#@admin.register(Templetes)
+#class Entry_company(admin.ModelAdmin):
+#    pass
 
 #@admin.register(Staff)
 #class Entry_staff(admin.ModelAdmin):

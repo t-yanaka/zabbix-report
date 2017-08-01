@@ -149,8 +149,10 @@ services:
     command: gunicorn -b 0.0.0.0:8000 -w 4  resource:app
     depends_on: 
       - nginx
+      - customer_api
     links:
       - nginx
+      - customer_api
 
 #  zabbix_api:
     #image: django
