@@ -142,7 +142,7 @@ services:
   zabbix_api:
     build: ./zabbix_api
     ports:
-      - "8003:8000"
+      - "8000:8000"
     hostname: zabbix_api
     volumes:
       - ./zabbix_api:/code

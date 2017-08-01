@@ -1,14 +1,18 @@
+
 <!DOCTYPE html>
 <html>
-  <head>
+ <head>
     <meta charset="utf-8">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
-    <script type="text/javascript" src="js/dict.js"></script>
-  </head>
-　　 <body>
- 　　　　 <p>外部で読み込むサンプル</p>
-          <div class="nameData">
-             <p>がんばっペ！Wake Up, Girls！</p>
-          </div>
- 　　</body>
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/zabbix.js"></script> 
+ </head>
+  <body>
+   <h1>Ajaxのデバッグ</h1>
+   
+    <form id="ajax-button">
+    <button>送信！</button>
+    </form>
+    
+　</body>
 </html>
+
