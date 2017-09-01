@@ -8,12 +8,12 @@ do
 done
 
 
-for line in `docker image ls | awk '{print $3}' | grep -v "IMAGE"`
+for line in `docker images | awk '{print $3}' | grep -v "IMAGE"`
 do
    docker rmi -f $line
 done
 
 docker ps -a
 echo ================================================================================================================
-docker image ls
+docker images
 

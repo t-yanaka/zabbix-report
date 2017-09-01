@@ -45,20 +45,16 @@ class Database(models.Model):
     db = models.CharField(default=STATUS_DB, max_length=128)
     port = models.IntegerField(default=STATUS_PORT)
     charset = models.CharField(default=STATUS_CHARSET, max_length=128)
-    #created_at = models.DateTimeField(auto_now_add=True)
-    #updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.hostname
 
 #class Templetes(models.Model):
-    #cace_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    #cace_id = models.IntegerField()
+#    cace_id = models.IntegerField()
 #    filename = models.CharField(max_length=128)
-#    upload = models.FileField(upload_to='uploads/')
 #    memo = models.TextField(blank=True)
-    #created_at = models.DateTimeField(auto_now_add=True)
-    #updated_at = models.DateTimeField(auto_now=True)
+#    created_at = models.DateTimeField(auto_now_add=True)
+#    updated_at = models.DateTimeField(auto_now=True)
 
 #    def __str__(self):
 #        return self.cace

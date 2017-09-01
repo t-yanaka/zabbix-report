@@ -1,0 +1,92 @@
+<HTML>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" 
+
+type="text/javascript"></script>
+
+<script>
+var myarray=
+	[
+		["1","name1","98"],
+		["2","name2","80"],
+		["3","name3","67"],
+		["4","name4","32"]
+	];
+
+var myrec=
+	[
+		{"no":"1","name":"name1","score":"98"},
+		{"no":"2","name":"name2","score":"80"},
+		{"no":"3","name":"name3","score":"67"},
+		{"no":"4","name":"name4","score":"32"}
+	];
+
+var mydata=
+	{data:[
+		["1","name1","98"],
+		["2","name2","80"],
+		["3","name3","67"],
+		["4","name4","32"]
+	]};
+
+$(function(){
+
+	//	ボタン１：配列の場合
+	$("#mybutton1").click(function(){
+		buf = "<table border=1>";
+		for(i = 0 ; i < myarray.length;i++)
+		{
+			buf=buf + "<tr>";
+			buf=buf + "<td>"+myarray[i][0]+"</td>";
+			buf=buf + "<td>"+myarray[i][1]+"</td>";
+			buf=buf + "<td>"+myarray[i][2]+"</td>";
+			buf=buf + "</tr>";
+		}
+		buf = buf+"</table>";
+		$("#mytable").html(buf);
+	});
+
+	//	ボタン２：連想配列の配列
+	$("#mybutton2").click(function(){
+
+		buf = "<table border=1 style='color:red'>";
+		for(i = 0 ; i < myrec.length;i++)
+		{
+			buf=buf + "<tr>";
+			buf=buf + "<td>"+myrec[i]['no']+"</td>";
+			buf=buf + "<td>"+myrec[i]['name']+"</td>";
+			buf=buf + "<td>"+myrec[i].score +"</td>";
+			buf=buf + "</tr>";
+		}
+		buf = buf+"</table>";
+		$("#mytable").html(buf);
+	});
+
+	//	ボタン３：変数の中に入っている
+	$("#mybutton3").click(function(){
+		buf = "<table border=1 style='color:blue'>";
+		for(i = 0 ; i < mydata.data.length;i++)
+		{
+			buf=buf + "<tr>";
+			buf=buf + "<td>"+mydata.data[i][0]+"</td>";
+			buf=buf + "<td>"+mydata["data"][i][1]+"</td>";
+			buf=buf + "<td>"+mydata.data[i][2]+"</td>";
+			buf=buf + "</tr>";
+		}
+		buf = buf+"</table>";
+		$("#mytable").html(buf);
+	});
+
+});
+
+</script>
+
+<body>
+<div id="mytable"></div>
+<BUTTON  id="mybutton1">配列</BUTTON>
+<BUTTON  id="mybutton2">連想配列の配列</BUTTON>
+<BUTTON  id="mybutton3">変数</BUTTON>
+
+</body>
+</html>
+

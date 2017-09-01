@@ -5,12 +5,12 @@ $('#ajax-button').submit(function(event) {
     
     // 操作対象のフォーム要素を取得
     var $form = $(this);
-    
+    var textarea1 = $("#textarea-id").val(); 
     // 送信ボタンを取得
     var $button = $form.find('button');
     
     var url = "http://report.com/zabbix/";
-    var requestParam = {"host":"10.0.1.163", "port":3306, "db":"zabbix", "user":"zabbix", "passwd":"zabbix", "charset":"utf8", "query":"select * from alerts;"};
+    var requestParam = {"host":"10.0.1.163", "port":3306, "db":"zabbix", "user":"zabbix", "passwd":"zabbix", "charset":"utf8", "query": textarea1};
     //alert(JSON.stringify(requestParam));
     
     $.ajax({
@@ -23,10 +23,20 @@ $('#ajax-button').submit(function(event) {
                 scriptCharset: 'UTF-8',
                 timeout : 300000000,
                 success : function(data) {
-                    var d = JSON.stringify(data); 
+                    var d = JSON.stringify(data);
+                    $("#table").html(d);
                     // Success
                     //alert(d);
-                    document.write(d);
+                    //document.write(d);
+                    //document.getElementById('table').appendChild(d);
+                    //buf = "<table border=1 style='color:blue'>";
+                    //for (var i = 0; i < d.length; i++) {
+                    //    buf=buf + "<tr>";
+                    //    buf=buf + "<td>"+ d[i] ['alertid'] +"</td>";
+                    //    buf=buf + "</tr>";   
+                    //}
+                    //buf = buf+"</table>";
+                    
                 },
                 error : function(data) {
                     var d = JSON.stringify(data);

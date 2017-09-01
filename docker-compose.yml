@@ -1,6 +1,6 @@
-version: '2'
+#version: '2'
 
-services:
+#services:
   graph_db:
     image: mysql:5.7
     ports:
@@ -68,17 +68,17 @@ services:
       - MYSQL_ROOT_PASSWORD=zabbix_api_db
 
   nginx:
-    image: nginx
+    #image: nginx
+    build: ./nginx
     ports:
       - "80:80" 
     hostname: nginx
     volumes:
       - ./nginx/html:/code
-      - ./nginx/conf.d:/etc/nginx/conf.d/
-   
-    #links:
-      #- customer_api
-    #  - zabbix_api  
+      - ./nginx/conf.d:/etc/nginx/conf.d/ 
+    links:
+      - customer_api
+      - zabbix_api  
 
   graph:
     #image: django
@@ -97,11 +97,11 @@ services:
       - table
       - customer_api
       - zabbix_api
-    depends_on:
-      - graph_db
+    #depends_on:
+    #  - graph_db
   
   table:
-     #image: django
+    #image: django
     build: ./table
     #env_file: django/env_django
     #command: mkdir -p /code/table/static
@@ -119,12 +119,13 @@ services:
       - "8001:8000"
     links:
       - table_db
-    depends_on:
-      - table_db
+    #depends_on:
+    #  - table_db
     
   customer_api:
     #image: django
     build: ./customer_api
+    hostname: customer_api
     #env_file: ./django/env_django
     #command: python3 manage.py startapp api
     command: python3 manage.py makemigrations
@@ -136,8 +137,8 @@ services:
       - "8002:8000"
     links:
       - customer_api_db
-    depends_on:
-      - customer_api_db
+    #depends_on:
+    #  - customer_api_db
 
   zabbix_api:
     build: ./zabbix_api
@@ -147,12 +148,12 @@ services:
     volumes:
       - ./zabbix_api:/code
     command: gunicorn -b 0.0.0.0:8000 -w 4  resource:app
-    depends_on: 
-      - nginx
-      - customer_api
-    links:
-      - nginx
-      - customer_api
+    #depends_on: 
+    #  - nginx
+    #  - customer_api
+    #links:
+    #  - nginx
+    #  - customer_api
 
 #  zabbix_api:
     #image: django
