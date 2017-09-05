@@ -30,10 +30,19 @@ $('#ajax-button').submit(function(event) {
                     //alert(d);
                     //document.write(d);
                     //document.getElementById('table').appendChild(d);
+                    
+                    var keys = Object.keys(data[0]);
                     buf = "<table border=1 style='color:blue'>";
+                    buf=buf + "<tr>";
+                    for (var j = 0; j < keys.length; j++) {
+                        buf=buf + "<td>" + [keys[j]] +"</td>";
+                    //alert(buf);
+                    }
+                    buf=buf + "</tr>";
+                    
                     for (var i = 0; i < data.length; i++) {
                         buf=buf + "<tr>";
-                        var keys = Object.keys(data[i])
+                        var keys = Object.keys(data[i]);
                         for (var j = 0; j < keys.length; j++) {
                             buf=buf + "<td>"+ data[i] [keys[j]] +"</td>";
                         }
