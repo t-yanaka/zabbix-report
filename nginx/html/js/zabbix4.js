@@ -30,47 +30,125 @@ var myAjax = function(arg) {
 };
 
 function firstZabbixAjax(){
-    zabbixAjax("show tables;");
+    //var q = zabbixAjax('show tables;', "all", "tables");
+    zabbixAjax('show tables;', "all", "tables").done(function(data) {
+                    firstButtons(data, "all", "tables")
+                    //if (para2 == "tables") {
+                    //    buttons(data, para1, para2);
+                    //} else if (para2 == "columns") {
+                    //    alert("OK");
+                    //}
+    }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                         alert("error");
+    })
+    //w = JSON.stringify(q, "tables")
+    //alert(w);
+    //buttons(q);
 };
 
-function createQuery(num){
+function columnsQuery(num){
     //buttonId= '"manyButtons-id' + num + '"'
     var d = document.getElementById('manyButtons-id' + num).value;
-    var q = 'select column_name from information_schema.columns where table_name="' + d + '";'
-    alert(q);
-    zabbixAjax(q);
+    var quary = 'select column_name from snformation_schema.columns where table_name = "' + d + '";'
+    //var q = zabbixAjax(quary, d, "columns");
+    zabbixAjax('show tables;', "all", "tables").done(function(data) {
+        var q = 'select * from ' + d + ';'
+        var tables = data;
+        zabbixAjax(q, "all", "tables").done(function(data) {
+            columnsButtons(tables, data, d, "columns")
+        }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("error");
+        })
+    }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                         alert("error");
+    })
+    //alert(q);
+    //buttons(q);
 };
 
-function zabbixAjax(query){
+/*
+function zabbixAjax(query, para1, para2){
 zabbixDbQuery = {"host":"10.0.1.163", "port":3306, "db":"zabbix", "user":"zabbix", "passwd":"zabbix", "charset":"utf8", "query": query}; 
 myAjax({
     url: 'http://report.com/zabbix/',
     type: 'POST',
     dataType: 'json',
-    data: JSON.stringify(zabbixDbQuery)
+    data: JSON.stringify(zabbixDbQuery),
+    //async:false
 }).done(function(json, statusText, jqXHR) {
-    //alert(json);
-    buttons(json);
+    buttons(json, para1, para2);
+    //return json;
 }).fail(function(jqXHR, statusText, errorThrown) {
-    console.log('FAIL!');
+    alert('FAIL!');
 }).always(function() {
     console.log('ALWAYS!');
 });
 };
+*/
 
-   function buttons(data){
-       var buf='<h3> TEST  </h3> <form name="bt">';
-       for (var i = 0; i < data.length; i++) {
-           buf=buf + '<form name="bt"> <p>';
-           var keys = Object.keys(data[i]);
-           for (var j = 0; j < keys.length; j++) {
-               var d = data[i] [keys[j]]; 
-               buf = buf + '<button type="button" id="manyButtons-id' + i + '" name="manyButtons" value="' + d + '" onclick="createQuery(' + i + ')">' + d + '</button>';
-               //buf=buf + "<button>"+ data[i] [keys[j]] +"</button>";
-           }
-           buf=buf + '</p> </form>';
-       }
-       //buf=buf + '</form>';
-       $("#id-buttons").html(buf);
-       alert(buf);
-   };           
+
+function zabbixAjax(query, para1, para2){
+zabbixDbQuery = {"host":"10.0.1.163", "port":3306, "db":"zabbix", "user":"zabbix", "passwd":"zabbix", "charset":"utf8", "query": query};
+return $.ajax({
+            url: 'http://report.com/zabbix/',
+            type:'POST',
+            dataType: 'json',
+            data : JSON.stringify(zabbixDbQuery),
+            timeout:30000,
+            //async:false
+       });
+};
+
+function firstButtons(data, para1, para2){
+     var buf=' <div name="bt" class="FirstButtons"> <h3>' + para1 + ' ' + para2 + '<h3>';
+     for (var i = 0; i < data.length; i++) {
+         buf=buf + '<form name="bt' + i + '"> <p>';
+         var keys = Object.keys(data[i]);
+         for (var j = 0; j < keys.length; j++) {
+             var d = data[i] [keys[j]]; 
+             buf = buf + '<form name="bt' + i + '" style="margin: 0px;"> <p>' + '<button type="button" id="manyButtons-id' + i + '" name="manyButtons" value="' + d + '" onclick="columnsQuery(' + i + ')">' + d + '</button> </p> </form>';
+         }
+         //buf=buf + '</p> </form>';
+     }
+     buf=buf + '</div>';
+     buf=buf + '<style> div.FirstButtons { color:red; position:relative; top:0px; left:0px } </style>'
+     $("#id-buttons").html(buf);
+     alert(buf);
+};
+
+function columnsButtons(tables, data, para1, para2){
+     var buf=' <div name="bt" class="FirstButtons"> <h3>' + para1 + ' ' + para2 + '<h3>';
+     for (var i = 0; i < tables.length; i++) {
+         buf=buf + '<form name="bt' + i + '"> <p>';
+         var keys = Object.keys(tables[i]);
+         for (var j = 0; j < keys.length; j++) {
+             var d = tables[i] [keys[j]];
+             buf = buf + '<form name="bt' + i + '" style="margin: 0px;"> <p>' + '<button type="button" id="manyButtons-id' + i + '" name="manyButtons" value="' + d + '" onclick="columnsQuery(' + i + ')">' + d + '</button> </p> </form>';
+         }
+         //buf=buf + '</p> </form>';
+     }
+
+     buf=buf + '</div>';
+     buf=buf + '<style> div.FirstButtons { color:red; float:left width:20% position:relative; top:0px; left:0px} </style>'
+
+     var keys = Object.keys(data[0]);
+     buf = buf+ "<table border=1 style='color:blue; float:left with 80% position:relative; top:0px; left:500px'>";
+     buf=buf + "<tr>";
+     for (var j = 0; j < keys.length; j++) {
+         buf=buf + "<td>" + [keys[j]] +"</td>";
+         //alert(buf);
+     }
+     buf=buf + "</tr>";
+
+     for (var i = 0; i < data.length; i++) {
+         buf=buf + "<tr>";
+         var keys = Object.keys(data[i]);
+         for (var j = 0; j < keys.length; j++) {
+             buf=buf + "<td>"+ data[i] [keys[j]] +"</td>";
+         }
+     }
+     buf=buf + "</tr>"
+
+     $("#id-buttons").html(buf);
+     //alert(buf);
+}
