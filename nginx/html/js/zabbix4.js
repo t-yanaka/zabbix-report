@@ -52,7 +52,7 @@ function columnsQuery(num){
     var quary = 'select column_name from snformation_schema.columns where table_name = "' + d + '";'
     //var q = zabbixAjax(quary, d, "columns");
     zabbixAjax('show tables;', "all", "tables").done(function(data) {
-        var q = 'select * from ' + d + ';'
+        var q = 'select * from ' + d + ' limit 10;'
         var tables = data;
         zabbixAjax(q, "all", "tables").done(function(data) {
             columnsButtons(tables, data, d, "columns")
@@ -118,6 +118,7 @@ function firstButtons(data, para1, para2){
 
 function columnsButtons(tables, data, para1, para2){
      var buf=' <div name="bt" class="FirstButtons"> <h3>' + para1 + ' ' + para2 + '<h3>';
+     //var buf=' <nav';
      for (var i = 0; i < tables.length; i++) {
          buf=buf + '<form name="bt' + i + '"> <p>';
          var keys = Object.keys(tables[i]);
@@ -129,10 +130,11 @@ function columnsButtons(tables, data, para1, para2){
      }
 
      buf=buf + '</div>';
-     buf=buf + '<style> div.FirstButtons { color:red; float:left width:20% position:relative; top:0px; left:0px} </style>'
+     buf=buf + '<style> div.FirstButtons { color:red; float:left } </style>'
 
      var keys = Object.keys(data[0]);
-     buf = buf+ "<table border=1 style='color:blue; float:left with 80% position:relative; top:0px; left:500px'>";
+     //buf = buf + "<div style='color:blue; float:right position:absolute; top:0px; right:100px'>";
+     buf = buf+ "<table border=1 style='color:blue; position:absolute; top:150px; left:350px;'>";
      buf=buf + "<tr>";
      for (var j = 0; j < keys.length; j++) {
          buf=buf + "<td>" + [keys[j]] +"</td>";
@@ -148,6 +150,8 @@ function columnsButtons(tables, data, para1, para2){
          }
      }
      buf=buf + "</tr>"
+     buf=buf + "</table>"
+     //buf=buf + "</div>"
 
      $("#id-buttons").html(buf);
      //alert(buf);
