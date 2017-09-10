@@ -9,7 +9,7 @@ $('#ajax-button').submit(function(event) {
     // 送信ボタンを取得
     var $button = $form.find('button');
     
-    var url = "http://report.com/zabbix/";
+    var url = "http://report.com/query/";
     var requestParam = {"host":"10.0.1.163", "port":3306, "db":"zabbix", "user":"zabbix", "passwd":"zabbix", "charset":"utf8", "query": textarea1};
     //alert(JSON.stringify(requestParam));
     
