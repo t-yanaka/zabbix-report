@@ -31,7 +31,7 @@ var myAjax = function(arg) {
 
 function firstZabbixAjax(){
     //var q = zabbixAjax('show tables;', "all", "tables");
-    zabbixAjax('show tables;', "all", "tables").done(function(data) {
+    zabbixAjax('select distinct table_name from information_schema.columns where column_key="PRI" order by column_name asc;', "all", "tables").done(function(data) {
                     firstButtons(data, "all", "tables")
                     //if (para2 == "tables") {
                     //    buttons(data, para1, para2);
@@ -52,13 +52,25 @@ function columnsQuery(num){
     var quary = 'select column_name from snformation_schema.columns where table_name = "' + d + '";'
     //var q = zabbixAjax(quary, d, "columns");
     zabbixAjax('show tables;', "all", "tables").done(function(data) {
-        var q = 'select * from ' + d + ' limit 10;'
+        var q1 = 'select * from ' + d + ' limit 10;'
         var tables = data;
-        zabbixAjax(q, "all", "tables").done(function(data) {
-            if (Object.keys(data).length === 0) {
+        zabbixAjax(q1).done(function(data1) {
+            if (Object.keys(data1).length === 0) {
                 alert("NO DATA");
             }else{
-                columnsButtons(tables, data, d, "columns")
+                var q2 = 'select distinct column_name from information_schema.columns where table_name = "' + d + '" and column_name in (select distinct column_name from information_schema.columns where column_key="pri") order by column_name asc;'
+                //alert(q2);
+                //alert(d);
+                zabbixAjax(q2).done(function(data2) {
+                    var w = JSON.stringify(data2);
+                    if (Object.keys(data2).length === 0) {
+                        columnsButtons(tables, data1, data2, d, "columns");
+                    }else{
+                        columnsButtons(tables, data1, data2, d, "columns");
+                    }
+                }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                   alert("error");
+                })
             }
         }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
             alert("error");
@@ -91,7 +103,7 @@ myAjax({
 */
 
 
-function zabbixAjax(query, para1, para2){
+function zabbixAjax(query){
 zabbixDbQuery = {"host":"10.0.1.163", "port":3306, "db":"zabbix", "user":"zabbix", "passwd":"zabbix", "charset":"utf8", "query": query};
 return $.ajax({
             url: 'http://report.com/query/',
@@ -117,11 +129,11 @@ function firstButtons(data, para1, para2){
      buf=buf + '</div>';
      buf=buf + '<style> div.FirstButtons { color:red; position:relative; top:0px; left:0px } </style>'
      $("#id-buttons").html(buf);
-     alert(buf);
+     //alert(buf);
 };
 
-function columnsButtons(tables, data, para1, para2){
-     var buf=' <div name="bt" class="FirstButtons"> <h3>' + para1 + ' ' + para2 + '<h3>';
+function columnsButtons(tables, data1, data2, para1, para2){
+     var buf=' <div name="bt" class="FirstButtons"> <h3>' + para1 + '<h3>';
      //var buf=' <nav';
      for (var i = 0; i < tables.length; i++) {
          buf=buf + '<form name="bt' + i + '"> <p>';
@@ -136,10 +148,9 @@ function columnsButtons(tables, data, para1, para2){
      buf=buf + '</div>';
      buf=buf + '<style> div.FirstButtons { color:red; float:left } </style>'
 
-     var keys = Object.keys(data[0]);
+     var keys = Object.keys(data1[0]);
      //buf = buf + "<div style='color:blue; float:right position:absolute; top:0px; right:100px'>";
-     buf = buf+ "<table border=1 style='color:blue; position:absolute; top:150px; left:350px;'>";
-
+     buf = buf+ "<table border=1 style='color:blue; position:absolute; top:150px; left:350px; font-size: smale;'>";
 
      buf=buf + "<tr>";
      for (var j = 0; j < keys.length; j++) {
@@ -158,17 +169,49 @@ function columnsButtons(tables, data, para1, para2){
       buf=buf + "</tr>";
  
      buf=buf + "<tr>";
-     for (var i = 0; i < data.length; i++) {
+     for (var i = 0; i < data1.length; i++) {
          buf=buf + "<tr>";
-         var keys = Object.keys(data[i]);
+         var keys = Object.keys(data1[i]);
          for (var j = 0; j < keys.length; j++) {
-             buf=buf + '<td>' + data[i] [keys[j]] + '</td>';
+             buf=buf + '<td>' + data1[i] [keys[j]] + '</td>';
          }
      }
      buf=buf + "</tr>"
      buf=buf + "</table>"
      //buf=buf + "</div>"
+    
+     //var d2 = intersection(data1, data2)     
+ 
+     buf=buf+' <div name="bt" class="SecondButtons"> <h3>' + 'joint' + '<h3>';
+     //var buf=' <nav';
+     for (var i = 0; i < data2.length; i++) {
+         //buf=buf + '<form name="sbt' + i + '"> <p>';
+         var keys = Object.keys(data2[i]);
+         for (var j = 0; j < keys.length; j++) {
+             var d = data2[i] [keys[j]];
+             buf = buf + '<form name="bt' + i + '" style="margin: 0px;"> <p>' + '<button type="button" id="manyButtons-id' + i + '" name="manyButtons" value="' + d + '" onclick="columnsQuery(' + i + ')">' + d + '</button> </p> </form>';
+         }
+         //buf=buf + '</p> </form>';
+     }
+
+     buf=buf + '</div>';
+     buf=buf + '<style> div.SecondButtons { color:red; float:left; position:absolute; top:90px; left:200px; } </style>'
 
      $("#id-buttons").html(buf);
-     //alert(buf);
 }
+
+function intersection(arr1, arr2) {
+         
+         var result = [];
+         for (var i = 0, len = arr1.length; i < len; i++) {
+             var keys = Object.keys(arr1[i]);
+             for (var j = 0; j < keys.length; j++) {
+                 var a = arr1[i] [keys[j]];
+                 if (arr2.includes(a)) {
+                     result.push(arr1[i]);
+                 }
+             }
+         }
+         return result;
+}
+
