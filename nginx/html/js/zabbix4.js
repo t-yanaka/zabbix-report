@@ -58,7 +58,8 @@ function columnsQuery(num){
             if (Object.keys(data1).length === 0) {
                 alert("NO DATA");
             }else{
-                var q2 = 'select distinct column_name from information_schema.columns where table_name = "' + d + '" and column_name in (select distinct column_name from information_schema.columns where column_key="pri") order by column_name asc;'
+                var q2 = 'select distinct table_name from information_schema.columns where column_name in (select distinct column_name from information_schema.columns where table_name = "' + d + '") and column_name in (select distinct column_name from information_schema.columns where column_key="pri") and table_name != "' + d + '" order by table_name asc;'
+                //var q2 = 'select distinct table_name from information_schema.columns where and table_name = "' + d + '" and column_key="pri" and table_name = "' + d + '" order by column_name asc;'
                 //alert(q2);
                 //alert(d);
                 zabbixAjax(q2).done(function(data2) {
