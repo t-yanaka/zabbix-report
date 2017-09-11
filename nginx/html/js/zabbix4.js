@@ -151,7 +151,7 @@ function columnsButtons(tables, data1, data2, para1, para2){
 
      var keys = Object.keys(data1[0]);
      //buf = buf + "<div style='color:blue; float:right position:absolute; top:0px; right:100px'>";
-     buf = buf+ "<table border=1 style='color:blue; position:absolute; top:150px; left:400px; font-size: smale;'>";
+     buf = buf+ "<table border=1 style='color:blue; position:absolute; top:150px; left:450px; font-size: smale;'>";
 
      buf=buf + "<tr>";
      for (var j = 0; j < keys.length; j++) {
@@ -196,7 +196,7 @@ function columnsButtons(tables, data1, data2, para1, para2){
      }
 
      buf=buf + '</div>';
-     buf=buf + '<style> div.SecondButtons { color:red; float:left; position:absolute; top:90px; left:200px; } </style>'
+     buf=buf + '<style> div.SecondButtons { color:red; float:left; position:absolute; top:90px; left:250px; } </style>'
 
      $("#id-buttons").html(buf);
 }
