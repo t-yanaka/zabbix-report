@@ -196,7 +196,7 @@ function columnsButtons(tables, data1, data2, para1, para2){
      }
 
      buf=buf + '</div>';
-     buf=buf + '<style> div.SecondButtons { color:red; float:left; position:absolute; top:90px; left:220px; } </style>'
+     buf=buf + '<style> div.SecondButtons { color:red; float:left; position:absolute; top:90px; left:230px; } </style>'
 
      $("#id-buttons").html(buf);
 }
