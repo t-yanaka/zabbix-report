@@ -1,4 +1,7 @@
-from django.contrib import admin
+import sys,os
+sys.path.append(os.pardir)
+import admin
+
 
 #from .models import Cace, Database, Company, Staff
 from .models import Cace, Database, Company

@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['13.112.98.87', '13.112.178.237', 'report.com']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    'admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'api',
     'rest_framework',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
