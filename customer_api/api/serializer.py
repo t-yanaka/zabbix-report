@@ -3,7 +3,7 @@
 from rest_framework import serializers
 
 #from .models import Company, Staff, Database, Cace
-from .models import Company, Database, Cace
+from .customer_models import Company, Database, Cace
 
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:

@@ -33,8 +33,8 @@ class Database(models.Model):
     STATUS_PORT = 3306
     STATUS_CHARSET = "utf8"
     #STATUS_SET = (
-    #        (STATUS_DRAFT, "下書き"),
-    #        (STATUS_PUBLIC, "公開中"),
+    #        (STATUS_DRAFT, "²¼½ñ),
+    #        (STATUS_PUBLIC, "¸ø"),
     #)
     hostname = models.CharField(max_length=128)
     #cace = models.ForeignKey(Cace, related_name='database')

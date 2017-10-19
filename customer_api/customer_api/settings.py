@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['13.112.98.87', '13.112.178.237', 'report.com']
 # Application definition
 
 INSTALLED_APPS = [
-    'admin',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -57,7 +57,7 @@ ROOT_URLCONF = 'customer_api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,3 +124,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+#SETTINGS_PATH = os.path.normpath(os.path.dirname(__file__)) 
+#TEMPLATE_DIRS = (os.path.join('api', 'templates'),)
