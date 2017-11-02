@@ -3,14 +3,17 @@
 {% block title %}My amazing blog {%endblock%}
 
 {% block content %}
-    
+     
     <form action="{% url 'columns_index' %}" method="post">
         {% csrf_token %}
         {% for button in buttons %}
             <button name="table" value="{{ button.id }}">{{ button.name }}</button> 
             <br><br> 
-        {% endfor  %}
-        <button type="submit">save</button>
+        {% endfor %}
+    </form>
+    <form action="{% url 'tables_add' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">add</button>
     </form>
 
 {% endblock %}

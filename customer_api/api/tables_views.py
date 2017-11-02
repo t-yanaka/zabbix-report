@@ -16,21 +16,24 @@ def tables_index(request):
  
 def columns_index(request):
      if request.method == 'POST':
-         id = request.POST["table"]
-         buttons = [column['name'] for column in Columns.objects.values('name')]
+         id = request.POST['table']
+         buttons = Columns.objects.filter(tables=id)
  
      return render(request, 'api/columns.html', {'buttons': buttons})
 
-def tables_edit(request, id=None):
-    if request.method == "POST":
-        clumns  = [column['name'] for column in columns.objects.values('name')]
-    else:
-        columns = AnyForm(instance=any)
+
+def tables_add(request):
+    return render(request, 'api/tables_add.html')
+
+
+#def columns_add(request):
+#     if request.method == 'POST':
+#         id = request.POST['table']
+#         buttons = Columns.objects.filter(tables=id)
+#
+#     return render(request, 'api/columns.html', {'buttons': buttons})
+
     
-    return render_to_response('api/columns.html',
-                               dict(any_form=any_form, any_id=any_id),
-                               RequestContext(request)
-                             )  
 #   return render(request, 'api/edit.html', {'form': form,})
 
 #def delete(request, id=None):

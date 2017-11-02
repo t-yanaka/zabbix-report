@@ -9,6 +9,7 @@ from .views import CompanyViewSet, CaceViewSet, DatabaseViewSet
 
 urlpatterns = [
     url(r'^$', tables_views.tables_index, name='tables_index'),
+    url(r'^add$', tables_views.tables_add, name='tables_add'),
     url(r'^columns$', tables_views.columns_index, name='columns_index'),
 ]
 

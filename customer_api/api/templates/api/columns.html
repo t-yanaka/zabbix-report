@@ -7,9 +7,18 @@
     <form action="{% url 'columns_index' %}" method="post">
         {% csrf_token %}
         {% for button in buttons %}
-            <button name="column" value="{{ button.id }}">{{ button.name }}</button>
-            <br><br>
+            <div style="float:left;">
+               <button name="column" value="{{ button.id }}">{{ button.name }}</button>
+               <br>
+               <p>ok</p>
+            </div>
         {% endfor  %}
+             <form action="{% url 'columns_index' %}" method="post">
+               <div style="float:left;">
+                  <button type="submit">add</button>
+               </div>
+             </form>
+        <br><br>
         <button type="submit">save</button>
     </form>
 
